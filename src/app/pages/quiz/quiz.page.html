@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>quiz</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>
+                {{quiz?.beschrijving}}
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+
+            <ion-list>
+                <ion-item *ngFor="let participant of quiz?.participants">
+                    {{participant.naam}}
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

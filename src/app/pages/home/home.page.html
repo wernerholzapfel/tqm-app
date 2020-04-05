@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -8,10 +8,19 @@
 </ion-header>
 
 <ion-content>
-    <ion-button expand="block"
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Welkom bij TQM</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            TQM is een quiz waarbij iedereen de quiz master is! Nodig je vrienden uit en laat ze vragen maken voor de quiz. Niet te moeilijk, maar ook niet te makkelijk. Zorg dat 45% tot 55% van je vrienden je vraag goed heb en scoor punten!
+            Voor iedere vraag zelf goed beantwoord krijg je 3 punten.
+        </ion-card-content>
+    </ion-card>
+    <ion-button color="secondary" expand="block"
                 (click)="create()">Create
     </ion-button>
-    <ion-button expand="block"
+    <ion-button color="secondary" expand="block"
                 (click)="join()">Join
     </ion-button>
 </ion-content>

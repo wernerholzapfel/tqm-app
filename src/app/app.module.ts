@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ModuleWithProviders, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
 
@@ -10,6 +10,9 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {QuizService} from './services/quiz.service';
 import {HttpClientModule} from '@angular/common/http';
+import {environment} from '../environments/environment';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 @NgModule({
     declarations: [AppComponent],
@@ -18,7 +21,9 @@ import {HttpClientModule} from '@angular/common/http';
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        AngularFireModule.initializeApp(environment.firebase) as ModuleWithProviders<AngularFireModule>,
+        AngularFireDatabaseModule
     ],
     providers: [
         StatusBar,
