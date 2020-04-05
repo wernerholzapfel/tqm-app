@@ -1,0 +1,21 @@
+<ion-header></ion-header> <ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Join quiz</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <form [formGroup]="joinQuizForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Naam</ion-label>
+      <ion-input type="text" formControlName="naam"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Quiz id</ion-label>
+      <ion-input type="text" formControlName="quizid"></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit" [disabled]="!joinQuizForm.valid">Opslaan</ion-button>
+  </form>
+</ion-content>
