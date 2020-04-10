@@ -3,7 +3,6 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {ParticipantModel} from '../../models/participant.model';
 import {QUIZ_ID} from '../../constants/storage.contants';
 import {Storage} from '@ionic/storage';
-import {CreateQuizComponent} from '../../components/create-quiz/create-quiz.component';
 import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {CreateQuestionComponent} from '../../components/create-question/create-question.component';
 
@@ -31,20 +30,20 @@ export class QuizPage implements OnInit {
     }
 
     async createQuestion() {
-            const modal = await this.modalController.create({
-                component: CreateQuestionComponent,
-                swipeToClose: true,
-                presentingElement: this.routerOutlet.nativeEl,
-                componentProps: {}
-            });
+        const modal = await this.modalController.create({
+            component: CreateQuestionComponent,
+            swipeToClose: true,
+            presentingElement: this.routerOutlet.nativeEl,
+            componentProps: {}
+        });
 
-            modal.onDidDismiss().then((event) => {
-                if (event.data) {
-                    console.log('create');
-                }
-            });
+        modal.onDidDismiss().then((event) => {
+            if (event.data) {
+                console.log('create');
+            }
+        });
 
-            return await modal.present();
+        return await modal.present();
 
     }
 }

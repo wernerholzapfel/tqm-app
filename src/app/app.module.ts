@@ -9,11 +9,13 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {QuizService} from './services/quiz.service';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {IonicStorageModule} from '@ionic/storage';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {TokenInterceptor} from './interceptors/token.interceptor';
 
 @NgModule({
     declarations: [AppComponent],
@@ -25,12 +27,18 @@ import {IonicStorageModule} from '@ionic/storage';
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase) as ModuleWithProviders<AngularFireModule>,
         AngularFireDatabaseModule,
+        AngularFireAuthModule,
         IonicStorageModule.forRoot()
     ],
     providers: [
         StatusBar,
         SplashScreen,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        },
         QuizService
     ],
     bootstrap: [AppComponent]

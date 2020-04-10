@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {QuizService} from '../../services/quiz.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {PARTICIPANT_ID, QUIZ_ID} from '../../constants/storage.contants';
-import { Storage } from '@ionic/storage';
+import {QUIZ_ID} from '../../constants/storage.contants';
+import {Storage} from '@ionic/storage';
+import {FirebaseApp} from '@angular/fire';
 
 @Component({
     selector: 'app-join-quiz',
@@ -11,7 +12,8 @@ import { Storage } from '@ionic/storage';
     styleUrls: ['./join-quiz.component.scss'],
 })
 export class JoinQuizComponent implements OnInit {
-    constructor(public modalController: ModalController, private quizService: QuizService, private storage: Storage) {
+    constructor(public modalController: ModalController, private quizService: QuizService, private storage: Storage,
+                private firebase: FirebaseApp) {
     }
 
     joinQuizForm = new FormGroup({
@@ -30,11 +32,18 @@ export class JoinQuizComponent implements OnInit {
         this.quizService.joinQuiz({
             naam: this.joinQuizForm.value.naam,
             quiz: {id: this.joinQuizForm.value.quizid}
-        }).subscribe(participant => {
-            this.storage.set(PARTICIPANT_ID, participant.id);
-            this.storage.set(QUIZ_ID, this.joinQuizForm.value.quizid);
-            this.modalController.dismiss(true);
-        });
+        }).subscribe(token => {
+            // this.storage.set(PARTICIPANT_ID, participant.id);
+            this.firebase.auth().signInWithCustomToken(token.token).catch(error => {
+                // Handle Errors here. //todo
+                console.log(error.message);
+                // var errorCode = error.code;
+                // var errorMessage = error.message;
+                // ...
 
+                this.storage.set(QUIZ_ID, this.joinQuizForm.value.quizid);
+                this.modalController.dismiss(true);
+            });
+        });
     }
 }
