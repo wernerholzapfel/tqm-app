@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {JoinQuizComponent} from '../../components/join-quiz/join-quiz.component';
 import {CreateQuizComponent} from '../../components/create-quiz/create-quiz.component';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -11,7 +12,8 @@ import {CreateQuizComponent} from '../../components/create-quiz/create-quiz.comp
 export class HomePage implements OnInit {
 
     constructor(private modalController: ModalController,
-                private routerOutlet: IonRouterOutlet) {
+                private routerOutlet: IonRouterOutlet,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -27,7 +29,7 @@ export class HomePage implements OnInit {
 
         modal.onDidDismiss().then((event) => {
             if (event.data) {
-                console.log('join');
+                this.router.navigate(['/quiz']);
             }
         });
 
@@ -44,7 +46,7 @@ export class HomePage implements OnInit {
 
         modal.onDidDismiss().then((event) => {
             if (event.data) {
-                console.log('create');
+                this.router.navigate(['/quiz']);
             }
         });
 
