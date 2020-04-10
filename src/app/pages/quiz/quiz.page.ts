@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {ParticipantModel} from '../../models/participant.model';
-import {QuizModel} from '../../models/quiz.model';
+import {QUIZ_ID} from '../../constants/storage.contants';
+import {Storage} from '@ionic/storage';
+import {CreateQuizComponent} from '../../components/create-quiz/create-quiz.component';
+import {IonRouterOutlet, ModalController} from '@ionic/angular';
+import {CreateQuestionComponent} from '../../components/create-question/create-question.component';
 
 @Component({
     selector: 'app-quiz',
@@ -10,15 +14,37 @@ import {QuizModel} from '../../models/quiz.model';
 })
 export class QuizPage implements OnInit {
 
-    constructor(private db: AngularFireDatabase) {
+    constructor(private db: AngularFireDatabase,
+                private storage: Storage,
+                private modalController: ModalController,
+                private routerOutlet: IonRouterOutlet) {
     }
 
-    quiz: { beschrijving: string, aantalVragen: number, participants: ParticipantModel[] };
+    quiz: { id: string, beschrijving: string, aantalVragen: number, participants: ParticipantModel[] };
 
     ngOnInit() {
-        this.db.object<any>(`bf0de5e8-702e-4beb-9b3d-4bb9f2487825`).valueChanges().subscribe(item => {
-           this.quiz = item;
+        this.storage.get(QUIZ_ID).then((val) => {
+            this.db.object<any>(val).valueChanges().subscribe(item => {
+                this.quiz = item;
+            });
         });
     }
 
+    async createQuestion() {
+            const modal = await this.modalController.create({
+                component: CreateQuestionComponent,
+                swipeToClose: true,
+                presentingElement: this.routerOutlet.nativeEl,
+                componentProps: {}
+            });
+
+            modal.onDidDismiss().then((event) => {
+                if (event.data) {
+                    console.log('create');
+                }
+            });
+
+            return await modal.present();
+
+    }
 }

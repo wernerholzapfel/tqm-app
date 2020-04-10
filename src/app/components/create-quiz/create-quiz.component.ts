@@ -3,6 +3,8 @@ import {ModalController} from '@ionic/angular';
 import {QuizService} from '../../services/quiz.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {switchMap} from 'rxjs/operators';
+import {PARTICIPANT_ID, QUIZ_ID} from '../../constants/storage.contants';
+import { Storage } from '@ionic/storage';
 
 @Component({
     selector: 'app-create-quiz',
@@ -11,7 +13,9 @@ import {switchMap} from 'rxjs/operators';
 })
 export class CreateQuizComponent implements OnInit {
 
-    constructor(public modalController: ModalController, private quizService: QuizService) {
+    constructor(public modalController: ModalController,
+                private quizService: QuizService,
+                private storage: Storage) {
     }
 
     createQuizForm = new FormGroup({
@@ -32,9 +36,10 @@ export class CreateQuizComponent implements OnInit {
             .pipe(switchMap(quiz => {
                 return this.quizService.joinQuiz({quiz: {id: quiz.id}, naam: this.createQuizForm.value.naam});
             }))
-            .subscribe(quiz => {
+            .subscribe(participant => {
+                this.storage.set(QUIZ_ID, participant.quiz.id);
+                this.storage.set(PARTICIPANT_ID, participant.id);
                 this.modalController.dismiss(true);
-                // todo key in storage zetten
             });
     }
 }

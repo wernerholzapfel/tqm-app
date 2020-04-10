@@ -1,0 +1,38 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Maak Quiz aan</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <form [formGroup]="createQuestionForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Vraag</ion-label>
+      <ion-input type="text"
+                 formControlName="vraag"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Antwoord A</ion-label>
+      <ion-input type="text"
+                 formControlName="a"></ion-input>
+    </ion-item>    <ion-item>
+      <ion-label position="floating">Antwoord B</ion-label>
+      <ion-input type="text"
+                 formControlName="b"></ion-input>
+    </ion-item>    <ion-item>
+      <ion-label position="floating">Antwoord C</ion-label>
+      <ion-input type="text"
+                 formControlName="c"></ion-input>
+    </ion-item>    <ion-item>
+      <ion-label position="floating">Antwoord D</ion-label>
+      <ion-input type="text"
+                 formControlName="d"></ion-input>
+    </ion-item>
+    <ion-button expand="block"
+                type="submit"
+                [disabled]="!createQuestionForm.valid">Opslaan
+    </ion-button>
+  </form>
+</ion-content>

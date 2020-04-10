@@ -14,15 +14,17 @@
             <ion-card-title>
                 {{quiz?.beschrijving}}
             </ion-card-title>
+            <ion-card-subtitle>
+                {{quiz?.id}}
+            </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-
             <ion-list>
                 <ion-item *ngFor="let participant of quiz?.participants">
-                    {{participant.naam}}
+                    {{participant.naam}} ({{participant.questions}})
                 </ion-item>
             </ion-list>
         </ion-card-content>
     </ion-card>
-
+<ion-button expand="block" color="secondary" (click)="createQuestion()">Voeg vraag toe</ion-button>
 </ion-content>

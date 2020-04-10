@@ -13,6 +13,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {IonicStorageModule} from '@ionic/storage';
 
 @NgModule({
     declarations: [AppComponent],
@@ -23,7 +24,8 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
         AppRoutingModule,
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase) as ModuleWithProviders<AngularFireModule>,
-        AngularFireDatabaseModule
+        AngularFireDatabaseModule,
+        IonicStorageModule.forRoot()
     ],
     providers: [
         StatusBar,
