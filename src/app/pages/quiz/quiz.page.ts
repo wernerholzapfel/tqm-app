@@ -5,6 +5,8 @@ import {QUIZ_ID} from '../../constants/storage.contants';
 import {Storage} from '@ionic/storage';
 import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {CreateQuestionComponent} from '../../components/create-question/create-question.component';
+import {QuizService} from '../../services/quiz.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-quiz',
@@ -16,15 +18,21 @@ export class QuizPage implements OnInit {
     constructor(private db: AngularFireDatabase,
                 private storage: Storage,
                 private modalController: ModalController,
-                private routerOutlet: IonRouterOutlet) {
+                private quizService: QuizService,
+                private routerOutlet: IonRouterOutlet,
+                private router: Router) {
     }
 
-    quiz: { id: string, beschrijving: string, aantalVragen: number, participants: ParticipantModel[] };
+    quiz: { id: string, beschrijving: string, aantalVragen: number, participants: ParticipantModel[] , isComplete: boolean};
+    showParticipantList = false;
 
     ngOnInit() {
         this.storage.get(QUIZ_ID).then((val) => {
             this.db.object<any>(val).valueChanges().subscribe(item => {
                 this.quiz = item;
+                if (this.quiz.isComplete) {
+                    this.router.navigate(['/play']);
+                }
             });
         });
     }
@@ -44,6 +52,28 @@ export class QuizPage implements OnInit {
         });
 
         return await modal.present();
+    }
 
+    startQuiz() {
+       this.quizService.startQuiz({...this.quiz, isComplete: true}).subscribe(response => {
+           console.log(response); // todo notificatie tonen
+       });
+    }
+
+    progressOfParticipants() {
+        if (this.quiz) {
+            return (this.quiz.participants.reduce(
+                (acc, curVal) => curVal.questions + acc, 0)) / (this.quiz.aantalVragen * this.quiz.participants.length);
+        } else {
+            return 0;
+        }
+    }
+
+    progressOfParticipant(participant: ParticipantModel) {
+        if (this.quiz) {
+            return participant.questions / this.quiz.aantalVragen;
+        } else {
+            return 0;
+        }
     }
 }

@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  apiBaseUrl: 'https://tqm-api.herokuapp.com',
   firebase: {
     apiKey: 'AIzaSyAyOicdW4HzqA4AgKtb2Xbm0mkbukrvU7U',
     authDomain: 'tqm-73b70.firebaseapp.com',

@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {QUIZ_ID} from '../../constants/storage.contants';
 import {Storage} from '@ionic/storage';
 import {FirebaseApp} from '@angular/fire';
+import {take} from 'rxjs/operators';
 
 @Component({
     selector: 'app-join-quiz',
@@ -32,7 +33,8 @@ export class JoinQuizComponent implements OnInit {
         this.quizService.joinQuiz({
             naam: this.joinQuizForm.value.naam,
             quiz: {id: this.joinQuizForm.value.quizid}
-        }).subscribe(token => {
+        }).pipe(take(1)) // todo find out why this request is send over and over
+            .subscribe(token => {
             // this.storage.set(PARTICIPANT_ID, participant.id);
             this.firebase.auth().signInWithCustomToken(token.token).catch(error => {
                 // Handle Errors here. //todo
@@ -40,10 +42,9 @@ export class JoinQuizComponent implements OnInit {
                 // var errorCode = error.code;
                 // var errorMessage = error.message;
                 // ...
-
-                this.storage.set(QUIZ_ID, this.joinQuizForm.value.quizid);
-                this.modalController.dismiss(true);
             });
+            this.storage.set(QUIZ_ID, this.joinQuizForm.value.quizid);
+            this.modalController.dismiss(true);
         });
     }
 }
