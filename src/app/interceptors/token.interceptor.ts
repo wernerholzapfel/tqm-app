@@ -30,10 +30,10 @@ export class TokenInterceptor implements HttpInterceptor {
         } else {
           request = request.clone({
             setHeaders: {
+                'Content-Type': 'application/json',
               'Cache-Control': 'no-cache',
               Pragma: 'no-cache',
               Expires: 'Sat, 01 Jan 2000 00:00:00 GMT',
-              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
           });
           return next.handle(request);
