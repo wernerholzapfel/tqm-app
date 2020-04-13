@@ -7,6 +7,7 @@ import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {CreateQuestionComponent} from '../../components/create-question/create-question.component';
 import {QuizService} from '../../services/quiz.service';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'app-quiz',
@@ -20,18 +21,29 @@ export class QuizPage implements OnInit {
                 private modalController: ModalController,
                 private quizService: QuizService,
                 private routerOutlet: IonRouterOutlet,
-                private router: Router) {
+                private router: Router,
+                public authService: AuthService) {
     }
 
-    quiz: { id: string, beschrijving: string, aantalVragen: number, participants: ParticipantModel[] , isComplete: boolean};
+    isReadyForQuiz = false;
     showParticipantList = false;
+    quiz: { id: string, beschrijving: string, aantalVragen: number, participants: ParticipantModel[], isComplete: boolean };
 
     ngOnInit() {
+
         this.storage.get(QUIZ_ID).then((val) => {
             this.db.object<any>(val).valueChanges().subscribe(item => {
-                this.quiz = item;
-                if (this.quiz.isComplete) {
-                    this.router.navigate(['/play']);
+                if (item && item.metadata) {
+                    this.quiz = item.metadata;
+                    if (item.metadata.participants && item.metadata.participants.length > 0) {
+                        this.isReadyForQuiz = item.metadata.aantalVragen ===
+                        item.metadata.participants.find(p => p.id === this.authService.uid) ?
+                            item.metadata.participants.find(p => p.id === this.authService.uid).questions : 0;
+                    }
+
+                    if (this.quiz.isComplete) {
+                        this.router.navigate(['/play']);
+                    }
                 }
             });
         });
@@ -55,13 +67,13 @@ export class QuizPage implements OnInit {
     }
 
     startQuiz() {
-       this.quizService.startQuiz({...this.quiz, isComplete: true}).subscribe(response => {
-           console.log(response); // todo notificatie tonen
-       });
+        this.quizService.startQuiz({...this.quiz, isComplete: true}).subscribe(response => {
+            console.log(response); // todo notificatie tonen
+        });
     }
 
     progressOfParticipants() {
-        if (this.quiz) {
+        if (this.quiz && this.quiz.participants) {
             return (this.quiz.participants.reduce(
                 (acc, curVal) => curVal.questions + acc, 0)) / (this.quiz.aantalVragen * this.quiz.participants.length);
         } else {

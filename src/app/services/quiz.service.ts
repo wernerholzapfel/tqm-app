@@ -14,8 +14,8 @@ export class QuizService {
     constructor(private http: HttpClient) {
     }
 
-    createQuiz(body: QuizModel): Observable<QuizModel> {
-        return this.http.post<QuizModel>(`${environment.apiBaseUrl}/quiz`, body);
+    createQuiz(body: QuizModel): Observable<{quiz: QuizModel, token: string}> {
+        return this.http.post<{quiz: QuizModel, token: string}>(`${environment.apiBaseUrl}/quiz`, body);
     }
 
     joinQuiz(body: ParticipantModel): Observable<{ token: string }> {

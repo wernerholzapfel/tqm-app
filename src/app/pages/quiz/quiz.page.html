@@ -13,7 +13,7 @@
         <ion-icon [name]="showParticipantList ? 'chevron-down-outline' : 'chevron-up-outline'" slot="end"></ion-icon>
     </ion-item>
     <ion-progress-bar color="secondary" [value]="progressOfParticipants()"></ion-progress-bar>
-<!--    todo create component-->
+    <!--    todo create component-->
     <ion-list *ngIf="showParticipantList">
         <ng-container *ngFor="let participant of quiz?.participants">
             <ion-item>{{participant.naam}} {{participant.questions}}
@@ -32,7 +32,12 @@
         </ion-card-header>
         <ion-card-content>
         </ion-card-content>
+        <ion-item *ngIf="isReadyForQuiz" class="ion-text-wrap">Het is wachten tot de quizmaster de quiz start. Klik op
+            de deelnemers om te zien wie er mee doen en hoeveel vragen ze al hebben bedacht.
+        </ion-item>
     </ion-card>
-    <ion-button expand="block" color="secondary" (click)="createQuestion()">Voeg vraag toe</ion-button>
-    <ion-button expand="block" color="secondary" (click)="startQuiz()">Start de Quiz</ion-button>
+    <ion-button expand="block" color="secondary" *ngIf="!isReadyForQuiz" (click)="createQuestion()">Voeg vraag toe
+    </ion-button>
+    <ion-button expand="block" color="secondary" *ngIf="authService?.isAdmin" (click)="startQuiz()">Start de Quiz
+    </ion-button>
 </ion-content>

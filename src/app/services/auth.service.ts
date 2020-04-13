@@ -5,10 +5,19 @@ import {AngularFireAuth} from '@angular/fire/auth';
     providedIn: 'root'
 })
 export class AuthService {
+    public uid: string;
+    public isAdmin: boolean;
 
     constructor(private angularFireAuth: AngularFireAuth) {
+        this.angularFireAuth.authState.subscribe(user => {
+            if (user) {
+                this.uid = user.uid;
+                this.angularFireAuth.auth.currentUser.getIdTokenResult(true).then(tokenResult => {
+                    this.isAdmin = tokenResult.claims.admin;
+                });
+            }
+        });
     }
-
 
     isLoggedIn() {
         return this.angularFireAuth.authState;
