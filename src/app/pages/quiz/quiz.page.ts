@@ -67,7 +67,7 @@ export class QuizPage implements OnInit {
     }
 
     startQuiz() {
-        this.quizService.startQuiz({...this.quiz, isComplete: true}).subscribe(response => {
+        this.quizService.startQuiz({id: this.quiz.id, isComplete: true}).subscribe(response => {
             console.log(response); // todo notificatie tonen
         });
     }
