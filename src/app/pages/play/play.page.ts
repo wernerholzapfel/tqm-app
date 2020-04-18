@@ -4,6 +4,7 @@ import {Storage} from '@ionic/storage';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {QuestionModel} from '../../models/question.model';
 import {QuizService} from '../../services/quiz.service';
+import {AnswerModel} from '../../models/answer.model';
 
 @Component({
     selector: 'app-play',
@@ -20,6 +21,7 @@ export class PlayPage implements OnInit {
     question: QuestionModel;
     quizId: string;
     isAnswered: boolean;
+    table: {answers: AnswerModel, id: string, naam: string, isAdmin: boolean, totaalScore: number}[];
 
     ngOnInit() {
         this.storage.get(QUIZ_ID).then((val) => {
@@ -29,6 +31,10 @@ export class PlayPage implements OnInit {
                     this.isAnswered = false;
                 }
                 this.question = question;
+            });
+            this.db.object<any>(`${val}/table`).valueChanges().subscribe(table => {
+                console.log(table);
+                this.table = table;
             });
         });
     }

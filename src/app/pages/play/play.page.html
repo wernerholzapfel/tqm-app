@@ -32,8 +32,13 @@
     <!--  todo only admin-->
 
   <ion-item *ngIf="isAnswered">Wachten op de volgende vraag</ion-item>
-  <ion-item *ngIf="question?.isFinished">De quiz zit er op, kijk snel naar de stand</ion-item>
-
+    <ng-container *ngIf="question?.isFinished"></ng-container>
+  <ion-item >De quiz zit er op, dit is de eindstand</ion-item>
+<ion-list>
+    <ion-item *ngFor="let line of table">
+        {{line.naam}} ({{line.totaalScore}})
+    </ion-item>
+</ion-list>
 </ion-content>
 <ion-footer><ion-toolbar>
   <ion-button *ngIf="!question?.isFinished" expand="block" color="tertiary" (click)="setQuestionAnswered()">Volgende vraag
