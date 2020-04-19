@@ -53,16 +53,29 @@
         </ion-card-header>
         <ion-progress-bar color="secondary" value="1"></ion-progress-bar>
         <ion-card-content>
-
             <ion-list>
-                <ion-item *ngFor="let line of table; let i = index">
-                    <ion-label>
-                        {{i + 1}})  {{line.naam}}
-                    </ion-label>
-                    <ion-badge color="secondary" slot="end">
-                        {{line.totaalScore}}
-                    </ion-badge>
-                </ion-item>
+                <ng-container *ngFor="let line of table; let i = index">
+                    <ion-item detail (click)="line.showAnswers = !line.showAnswers ">
+                        <ion-label>
+                            {{i + 1}})  {{line.naam}}
+                        </ion-label>
+                        <ion-badge color="secondary" slot="end">
+                            {{line.totaalScore}}
+                        </ion-badge>
+                    </ion-item>
+                    <ion-list *ngIf="line.showAnswers">
+                        <ng-container *ngFor="let answer of line.answers">
+                            <ion-item lines="none">
+                                <ion-label>Vraag:{{answer.question.vraag}}</ion-label>
+                            </ion-item>
+                            <ion-item *ngFor="let answer of line.answers">
+                                <ion-label>
+                                    Antwoord: {{answer.answer}}
+                                </ion-label>
+                            </ion-item>
+                        </ng-container>
+                    </ion-list>
+                </ng-container>
             </ion-list>
         </ion-card-content>
     </ion-card>

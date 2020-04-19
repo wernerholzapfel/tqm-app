@@ -21,7 +21,7 @@ export class PlayPage implements OnInit {
     question: QuestionModel;
     quizId: string;
     isAnswered: boolean;
-    table: {answers: AnswerModel, id: string, naam: string, isAdmin: boolean, totaalScore: number}[];
+    table: {answers: AnswerModel[], id: string, naam: string, isAdmin: boolean, totaalScore: number, showAnswers: boolean}[];
 
     ngOnInit() {
         this.storage.get(QUIZ_ID).then((val) => {
