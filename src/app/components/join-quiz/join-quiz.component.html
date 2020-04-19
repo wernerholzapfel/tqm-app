@@ -7,11 +7,11 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content fullscreen>
-    <ion-item class="ion-text-wrap">
-        Om deel te nemen aan een quiz heb je een quiz id nodig. Vraag het groepshoofd om het id.
-    </ion-item>
-    <form [formGroup]="joinQuizForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="joinQuizForm" (ngSubmit)="onSubmit()">
+    <ion-content fullscreen>
+        <ion-item class="ion-text-wrap">
+            Om deel te nemen aan een quiz heb je een quiz id nodig. Vraag het groepshoofd om het id.
+        </ion-item>
         <ion-item>
             <ion-label position="floating">Naam deelnemer</ion-label>
             <ion-input type="text" formControlName="naam"></ion-input>
@@ -20,10 +20,11 @@
             <ion-label position="floating">Quiz id</ion-label>
             <ion-input type="text" formControlName="quizid"></ion-input>
         </ion-item>
-    </form>
-</ion-content>
-<ion-footer class="ion-no-border">
-    <ion-toolbar color="secondary">
-        <ion-button color="secondary" expand="block" type="submit" [disabled]="!joinQuizForm.valid">Opslaan</ion-button>
-    </ion-toolbar>
-</ion-footer>
+    </ion-content>
+    <ion-footer class="ion-no-border">
+        <ion-toolbar color="secondary">
+            <ion-button color="secondary" expand="block" type="submit" [disabled]="!joinQuizForm.valid">Opslaan
+            </ion-button>
+        </ion-toolbar>
+    </ion-footer>
+</form>
