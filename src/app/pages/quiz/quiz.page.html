@@ -8,17 +8,24 @@
 </ion-header>
 
 <ion-content>
-    <ion-item (click)="showParticipantList = !showParticipantList">
-        {{quiz?.participants.length}} deelnemers ({{progressOfParticipants()}})
+    <ion-item lines="none" (click)="showParticipantList = !showParticipantList">
+        <ion-label>
+            {{quiz?.participants.length}} deelnemers
+        </ion-label>
+        <ion-badge color="secondary" slot="end">
+            {{progressOfParticipants()}}
+        </ion-badge>
         <ion-icon [name]="showParticipantList ? 'chevron-down-outline' : 'chevron-up-outline'" slot="end"></ion-icon>
     </ion-item>
-    <ion-progress-bar color="secondary" [value]="progressOfParticipants()"></ion-progress-bar>
+    <ion-progress-bar color="tertiary" [value]="progressOfParticipants()"></ion-progress-bar>
     <!--    todo create component-->
     <ion-list *ngIf="showParticipantList">
         <ng-container *ngFor="let participant of quiz?.participants">
-            <ion-item>{{participant.naam}} {{participant.questions}}
+            <ion-item lines="none">
+                <ion-label>{{participant.naam}}</ion-label>
+                <ion-badge slot="end" color="secondary">{{participant.questions}}</ion-badge>
             </ion-item>
-            <ion-progress-bar color="secondary" [value]="progressOfParticipant(participant)"></ion-progress-bar>
+            <ion-progress-bar color="tertiary" [value]="progressOfParticipant(participant)"></ion-progress-bar>
         </ng-container>
     </ion-list>
     <ion-card>
@@ -30,15 +37,27 @@
                 {{quiz?.id}}
             </ion-card-subtitle>
         </ion-card-header>
+        <ion-progress-bar color="secondary" value="1"></ion-progress-bar>
         <ion-card-content>
+            <ion-item *ngIf="isReadyForQuiz" class="ion-text-wrap">Het is wachten tot de quizmaster de quiz start. Klik
+                op
+                de deelnemers om te zien wie er mee doen en hoeveel vragen ze al hebben bedacht.
+            </ion-item>
+            <ion-footer class="ion-no-border">
+                <ion-toolbar>
+                    <ion-button expand="block" color="secondary" *ngIf="!isReadyForQuiz" (click)="createQuestion()">Voeg
+                        vraag toe
+                    </ion-button>
+                </ion-toolbar>
+            </ion-footer>
         </ion-card-content>
-        <ion-item *ngIf="isReadyForQuiz" class="ion-text-wrap">Het is wachten tot de quizmaster de quiz start. Klik op
-            de deelnemers om te zien wie er mee doen en hoeveel vragen ze al hebben bedacht.
-        </ion-item>
     </ion-card>
-    <ion-button expand="block" color="secondary" *ngIf="!isReadyForQuiz" (click)="createQuestion()">Voeg vraag toe
-    </ion-button>
-    <ion-button expand="block" color="secondary" *ngIf="authService?.isAdmin" (click)="startQuiz()">Start de Quiz
-    </ion-button>
 
 </ion-content>
+<ion-footer class="ion-no-border">
+    <ion-toolbar color="primary">
+        <ion-button expand="block" color="primary" *ngIf="authService?.isAdmin" (click)="startQuiz()">
+            Start de Quiz
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>

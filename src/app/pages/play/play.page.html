@@ -14,34 +14,63 @@
                 {{question?.vraag}}
             </ion-card-title>
             <ion-card-subtitle>
-         {{question?.owner?.naam}}
+                {{question?.owner?.naam}}
             </ion-card-subtitle>
         </ion-card-header>
+        <ion-progress-bar color="secondary" value="1"></ion-progress-bar>
+
         <ion-card-content>
+            <ion-button expand="block" color="secondary" class="ion-text-wrap"
+                        (click)="setAnswer(question?.a)">{{question?.a}}
+            </ion-button>
+            <ion-button expand="block" color="secondary" class="ion-text-wrap"
+                        (click)="setAnswer(question?.b)">{{question?.b}}
+            </ion-button>
+            <ion-button expand="block" color="secondary" class="ion-text-wrap"
+                        (click)="setAnswer(question?.c)">{{question?.c}}
+            </ion-button>
+            <ion-button expand="block" color="secondary" class="ion-text-wrap"
+                        (click)="setAnswer(question?.d)">{{question?.d}}
+            </ion-button>
+
         </ion-card-content>
-    <ion-button expand="block" color="secondary" (click)="setAnswer(question?.a)">{{question?.a}}
-    </ion-button>
-    <ion-button expand="block" color="secondary" (click)="setAnswer(question?.b)">{{question?.b}}
-    </ion-button>
-    <ion-button expand="block" color="secondary" (click)="setAnswer(question?.c)">{{question?.c}}
-    </ion-button>
-    <ion-button expand="block" color="secondary" (click)="setAnswer(question?.d)">{{question?.d}}
-    </ion-button>
     </ion-card>
 
     <!--  todo only admin-->
-
-  <ion-item *ngIf="isAnswered">Wachten op de volgende vraag</ion-item>
-    <ng-container *ngIf="question?.isFinished"></ng-container>
-  <ion-item >De quiz zit er op, dit is de eindstand</ion-item>
-<ion-list>
-    <ion-item *ngFor="let line of table">
-        {{line.naam}} ({{line.totaalScore}})
+    <ion-item *ngIf="isAnswered">
+        <ion-label>
+            Wachten op de volgende vraag
+        </ion-label>
     </ion-item>
-</ion-list>
-</ion-content>
-<ion-footer><ion-toolbar>
-  <ion-button *ngIf="!question?.isFinished" expand="block" color="tertiary" (click)="setQuestionAnswered()">Volgende vraag
-  </ion-button>
+    <ion-card *ngIf="question?.isFinished">
+        <ion-card-header>
+            <ion-card-title>
+                Eindstand
+            </ion-card-title>
+            <ion-card-subtitle>
+                De quiz is afgelopen
+            </ion-card-subtitle>
+        </ion-card-header>
+        <ion-progress-bar color="secondary" value="1"></ion-progress-bar>
+        <ion-card-content>
 
-</ion-toolbar></ion-footer>
+            <ion-list>
+                <ion-item *ngFor="let line of table; let i = index">
+                    <ion-label>
+                        {{i + 1}})  {{line.naam}}
+                    </ion-label>
+                    <ion-badge color="secondary" slot="end">
+                        {{line.totaalScore}}
+                    </ion-badge>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+<ion-footer class="ion-no-border">
+    <ion-toolbar color="primary">
+        <ion-button *ngIf="!question?.isFinished" expand="block" color="tertiary" (click)="setQuestionAnswered()">
+            Volgende vraag
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>
