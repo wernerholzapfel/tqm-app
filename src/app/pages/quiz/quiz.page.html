@@ -33,8 +33,9 @@
             <ion-card-title>
                 {{quiz?.beschrijving}} {{quiz?.aantalVragen}}
             </ion-card-title>
-            <ion-card-subtitle>
+            <ion-card-subtitle (click)="copyQuizIdToClipboard()">
                 {{quiz?.id}}
+                <ion-icon size="medium" name="copy-outline"></ion-icon>
             </ion-card-subtitle>
         </ion-card-header>
         <ion-progress-bar color="secondary" value="1"></ion-progress-bar>

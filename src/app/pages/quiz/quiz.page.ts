@@ -8,6 +8,7 @@ import {CreateQuestionComponent} from '../../components/create-question/create-q
 import {QuizService} from '../../services/quiz.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
+import {QuestionModel} from '../../models/question.model';
 
 @Component({
     selector: 'app-quiz',
@@ -28,6 +29,7 @@ export class QuizPage implements OnInit {
     isReadyForQuiz = false;
     showParticipantList = false;
     quiz: { id: string, beschrijving: string, aantalVragen: number, participants: ParticipantModel[], isComplete: boolean };
+    questions: QuestionModel[];
 
     ngOnInit() {
 
@@ -60,6 +62,7 @@ export class QuizPage implements OnInit {
         modal.onDidDismiss().then((event) => {
             if (event.data) {
                 console.log('create');
+                this.questions.push(event.data);    
             }
         });
 
@@ -88,4 +91,16 @@ export class QuizPage implements OnInit {
             return 0;
         }
     }
+
+    copyQuizIdToClipboard() {
+        /* Get the text field */
+        const text = this.quiz.id;
+
+        navigator.clipboard.writeText(text).then(() => {
+            console.log('Async: Copying to clipboard was successful!');
+        }, err => {
+            console.error('Async: Could not copy text: ', err);
+        });
+    }
+
 }
