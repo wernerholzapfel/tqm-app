@@ -5,6 +5,7 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {QuestionModel} from '../../models/question.model';
 import {QuizService} from '../../services/quiz.service';
 import {AnswerModel} from '../../models/answer.model';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'app-play',
@@ -15,13 +16,14 @@ export class PlayPage implements OnInit {
 
     constructor(private db: AngularFireDatabase,
                 private storage: Storage,
-                private quizService: QuizService) {
+                private quizService: QuizService,
+                public authService: AuthService) {
     }
 
     question: QuestionModel;
     quizId: string;
     isAnswered: boolean;
-    table: {answers: AnswerModel[], id: string, naam: string, isAdmin: boolean, totaalScore: number, showAnswers: boolean}[];
+    table: { answers: AnswerModel[], id: string, naam: string, isAdmin: boolean, totaalScore: number, showAnswers: boolean }[];
 
     ngOnInit() {
         this.storage.get(QUIZ_ID).then((val) => {

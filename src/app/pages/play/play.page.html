@@ -82,7 +82,7 @@
 </ion-content>
 <ion-footer class="ion-no-border">
     <ion-toolbar color="primary">
-        <ion-button *ngIf="!question?.isFinished" expand="block" color="tertiary" (click)="setQuestionAnswered()">
+        <ion-button *ngIf="!question?.isFinished && authService?.isAdmin" expand="block" color="tertiary" (click)="setQuestionAnswered()">
             Volgende vraag
         </ion-button>
     </ion-toolbar>
