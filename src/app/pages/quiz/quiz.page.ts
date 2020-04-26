@@ -29,18 +29,21 @@ export class QuizPage implements OnInit {
     isReadyForQuiz = false;
     showParticipantList = false;
     quiz: { id: string, beschrijving: string, aantalVragen: number, participants: ParticipantModel[], isComplete: boolean };
-    questions: QuestionModel[];
+    questions: QuestionModel[] = [];
 
     ngOnInit() {
+
+        this.quizService.getQuestions().subscribe(questions => {
+            this.questions = questions;
+        });
 
         this.storage.get(QUIZ_ID).then((val) => {
             this.db.object<any>(val).valueChanges().subscribe(item => {
                 if (item && item.metadata) {
                     this.quiz = item.metadata;
                     if (item.metadata.participants && item.metadata.participants.length > 0) {
-                        this.isReadyForQuiz = item.metadata.aantalVragen ===
-                        item.metadata.participants.find(p => p.id === this.authService.uid) ?
-                            item.metadata.participants.find(p => p.id === this.authService.uid).questions : 0;
+                        this.isReadyForQuiz = item.metadata.participants.find(p => p.id === this.authService.uid) ?
+                            (item.metadata.aantalVragen === item.metadata.participants.find(p => p.id === this.authService.uid).questions) : false;
                     }
 
                     if (this.quiz.isComplete) {
@@ -62,7 +65,7 @@ export class QuizPage implements OnInit {
         modal.onDidDismiss().then((event) => {
             if (event.data) {
                 console.log('create');
-                this.questions.push(event.data);    
+                this.questions.push(event.data);
             }
         });
 

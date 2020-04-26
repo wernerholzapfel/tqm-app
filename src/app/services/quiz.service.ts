@@ -38,4 +38,8 @@ export class QuizService {
     setQuestionAnswered(body: { id: string, quizId: string }): Observable<QuizModel> {
         return this.http.put<QuizModel>(`${environment.apiBaseUrl}/question/answered`, body);
     }
+
+    getQuestions(): Observable<QuestionModel[]> {
+        return this.http.get<QuestionModel[]>(`${environment.apiBaseUrl}/question`);
+    }
 }

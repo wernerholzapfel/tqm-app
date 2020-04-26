@@ -23,6 +23,7 @@ export class PlayPage implements OnInit {
     question: QuestionModel;
     quizId: string;
     isAnswered: boolean;
+    aantalDeelnemers: number;
     table: { answers: AnswerModel[], id: string, naam: string, isAdmin: boolean, totaalScore: number, showAnswers: boolean }[];
 
     ngOnInit() {
@@ -33,6 +34,11 @@ export class PlayPage implements OnInit {
                     this.isAnswered = false;
                 }
                 this.question = question;
+            });
+            this.db.object<any>(`${val}/metadata/participants`).valueChanges().subscribe(participants => {
+                if (participants) {
+                    this.aantalDeelnemers = participants.length;
+                }
             });
             this.db.object<any>(`${val}/table`).valueChanges().subscribe(table => {
                 console.log(table);

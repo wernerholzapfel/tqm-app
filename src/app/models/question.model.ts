@@ -10,4 +10,5 @@ export interface QuestionModel {
     quiz: { id: string };
     owner?: ParticipantModel;
     isFinished: boolean;
+    answers?: number
 }

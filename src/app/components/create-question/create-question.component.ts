@@ -36,7 +36,7 @@ export class CreateQuestionComponent implements OnInit {
         this.storage.get(QUIZ_ID).then(quizId => {
             this.quizService.createQuestion({...this.createQuestionForm.value, quiz: {id: quizId}})
                 .subscribe(question => {
-                    this.modalController.dismiss(true);
+                    this.modalController.dismiss(question);
                 }); // todo error gooien
         });
     }

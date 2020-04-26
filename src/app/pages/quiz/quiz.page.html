@@ -13,7 +13,7 @@
             {{quiz?.participants.length}} deelnemers
         </ion-label>
         <ion-badge color="secondary" slot="end">
-            {{progressOfParticipants()}}
+            {{progressOfParticipants() * 100}}%
         </ion-badge>
         <ion-icon [name]="showParticipantList ? 'chevron-down-outline' : 'chevron-up-outline'" slot="end"></ion-icon>
     </ion-item>
@@ -41,9 +41,21 @@
         <ion-progress-bar color="secondary" value="1"></ion-progress-bar>
         <ion-card-content>
             <ion-item *ngIf="isReadyForQuiz" class="ion-text-wrap">Het is wachten tot de quizmaster de quiz start. Klik
-                op
-                de deelnemers om te zien wie er mee doen en hoeveel vragen ze al hebben bedacht.
+                op de deelnemers om te zien wie er mee doen en hoeveel vragen ze al hebben bedacht.
             </ion-item>
+            <ion-list>
+                <ion-item *ngFor="let question of questions">
+                    <ion-label  class="ion-text-wrap">
+                        <ion-text color="primary">
+                            <h2>Vraag: {{question.vraag}}</h2>
+                        </ion-text>
+                        <p>a: {{question.a}}</p>
+                        <p>b: {{question.b}}</p>
+                        <p>c: {{question.c}}</p>
+                        <p>d: {{question.d}}</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
             <ion-footer class="ion-no-border">
                 <ion-toolbar>
                     <ion-button expand="block" color="secondary" *ngIf="!isReadyForQuiz" (click)="createQuestion()">Voeg
@@ -53,7 +65,6 @@
             </ion-footer>
         </ion-card-content>
     </ion-card>
-
 </ion-content>
 <ion-footer class="ion-no-border">
     <ion-toolbar color="primary">
