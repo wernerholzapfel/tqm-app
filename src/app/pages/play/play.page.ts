@@ -40,9 +40,9 @@ export class PlayPage implements OnInit {
                     this.aantalDeelnemers = participants.length;
                 }
             });
-            this.db.object<any>(`${val}/table`).valueChanges().subscribe(table => {
+            this.db.object<any>(`${val}/table`).valueChanges().subscribe((table: any[]) => {
                 console.log(table);
-                this.table = table;
+                this.table = table.sort((a, b) =>  b.totaalScore - a.totaalScore);
             });
         });
     }

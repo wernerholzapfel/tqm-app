@@ -65,12 +65,18 @@
                     <ion-list *ngIf="line.showAnswers">
                         <ng-container *ngFor="let answer of line.answers">
                             <ion-item lines="none">
-                                <ion-label>Vraag:{{answer.question.vraag}}</ion-label>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label>
-                                    Antwoord: {{answer.answer}} {{answer.score}}
+                                <ion-label class="ion-text-wrap">
+                                    {{answer.question.vraag}}
+                                    <p>
+                                        Het antwoord: {{answer.answer}}
+                                    </p>
+                                    <p>
+                                        Jouw antwoord: {{answer.answer}}
+                                    </p>
                                 </ion-label>
+                                <ion-badge color="secondary" slot="end">
+                                    {{answer.score}}
+                                </ion-badge>
                             </ion-item>
                         </ng-container>
                     </ion-list>
@@ -81,7 +87,8 @@
 </ion-content>
 <ion-footer class="ion-no-border">
     <ion-toolbar color="primary">
-        <ion-button *ngIf="!question?.isFinished && authService?.isAdmin" expand="block" color="tertiary" (click)="setQuestionAnswered()">
+        <ion-button *ngIf="!question?.isFinished && authService?.isAdmin" expand="block" color="tertiary"
+                    (click)="setQuestionAnswered()">
             Volgende vraag
         </ion-button>
     </ion-toolbar>
