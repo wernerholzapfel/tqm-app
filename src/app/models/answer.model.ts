@@ -6,4 +6,5 @@ export interface AnswerModel {
     question: {id: string, vraag?: string};
     answer: string;
     quizId?: string;
+    score?: number;
 }
